@@ -4,7 +4,7 @@
 <html lang="en"
   ><head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-    <title>{{ title }}</title>
+    <title>Login V1</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -171,7 +171,6 @@
         ) {
           document.getElementById(action + '_error').innerHTML =
             'Invalid email address'
-          document.getElementById(msg_key).style.animation = 'shake 0.5s'
           return false
         } else if (
           validatePassword(
@@ -199,7 +198,6 @@
           return true
         } else {
           document.getElementById(msg_key).innerHTML = 'Invalid email address'
-          document.getElementById(msg_key).style.animation = 'shake 0.5s'
           return false
         }
       }
@@ -223,7 +221,6 @@
         if (pw == '') {
           document.getElementById(msg_key).innerHTML =
             'Password cannot be empty'
-          document.getElementById(msg_key).style.animation = 'shake 0.5s'
           return false
         }
 
@@ -231,7 +228,6 @@
         if (pw.length < 6) {
           document.getElementById(msg_key).innerHTML =
             'Password length must be at least 6 characters'
-          document.getElementById(msg_key).style.animation = 'shake 0.5s'
           return false
         }
 
@@ -239,7 +235,6 @@
         if (pw.length > 15) {
           document.getElementById(msg_key).innerHTML =
             'Password length must not exceed 15 characters'
-          document.getElementById(msg_key).style.animation = 'shake 0.5s'
           return false
         }
 
@@ -258,8 +253,7 @@
         var pw2 = document.getElementById('pass_again').value
         //alert(pw1)
         if (pw1 != pw2) {
-          document.getElementById(msg_key).innerHTML = 'Passwords do not match'
-          document.getElementById(msg_key).style.animation = 'shake 0.5s'
+          document.getElementById(msg_key).innerHTML = 'Password not match'
           return false
         }
         document.getElementById(msg_key).innerHTML = ''
@@ -270,138 +264,203 @@
     </script>
   </head>
   <body>
-    <div class="main">
-      <nav>
-        <img src="../static/assets/logo.png" alt="" />
-      </nav>
-      <div class="content">
-        <div style="margin: auto; width: 100%">
-          <form class="card" id="login_form">
-            <h1 style="font-size: 1.25rem">Sign in to your account</h1>
-            <div data-validate="Valid email is required: ex@abc.xyz">
-              <label for="email">Email</label>
-              <input
-                type="text"
-                name="email"
-                id="login_email"
-                value="{{ login_email }}"
-              />
-            </div>
-            <div data-validate="Password is required">
-              <div
-                style="
-                  display: flex;
-                  align-items: center;
-                  justify-content: space-between;
-                "
-              >
-                <label for="password">Password</label>
-                <label for="password"
-                  ><a href="#">Forgot your password?</a></label
-                >
-              </div>
-              <input
-                type="password"
-                name="pass"
-                id="login_pass"
-                value="{{ login_password }}"
-              />
-            </div>
-            <button type="button" id="login_error" onclick="login()"
-              >Continue</button
-            >
-            <hr />
-            <div class="selector">
-              <button
-                type="button"
-                onclick="document.getElementById('login_form').style.display='block';document.getElementById('signup_form').style.display='none';"
-                class="selector-btn"
-                >Log In</button
-              >
-              <button
-                style="margin-left: 5px"
-                class="selector-btn"
-                active="false"
-                type="button"
-                onclick="document.getElementById('login_form').style.display='none';document.getElementById('signup_form').style.display='block'; document.getElementsByClassName('selector-btn')[3].setAttribute('active', 'true'); document.getElementsByClassName('selector-btn')[2].setAttribute('active', 'false'); document.getElementsByClassName('selector-btn')[0].setAttribute('active', 'false');"
-                >Sign Up</button
-              >
-            </div>
-          </form>
-          <form class="card" id="signup_form" style="display: none">
-            <h1 style="font-size: 1.25rem">Create your account</h1>
+    <div class="limiter">
+      <div class="container-login100">
+        <div class="wrap-login100">
+          <div
+            class="login100-pic js-tilt"
+            data-tilt=""
+            style="
+              will-change: transform;
+              transform: perspective(300px) rotateX(0deg) rotateY(0deg);
+            "
+          >
+            <img
+              src="{{ url_for('static',filename='img-01.webp') }}"
+              alt="IMG"
+            />
+          </div>
+          <form class="login100-form validate-form" id="login_form">
+            <span class="login100-form-title"> {{title}} </span>
             <div class="text-center p-t-0">
               <p style="color: red" , id="login_error">{{login_error}}</p>
             </div>
-            <div data-validate="Valid email is required: ex@abc.xyz">
-              <label for="email">Email</label>
+            <div
+              class="wrap-input100 validate-input"
+              data-validate="Valid email is required: ex@abc.xyz"
+            >
               <input
+                class="input100"
+                type="text"
+                name="email"
+                id="login_email"
+                placeholder="Email"
+                value="{{ login_email }}"
+              />
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+              </span>
+            </div>
+            <div
+              class="wrap-input100 validate-input"
+              data-validate="Password is required"
+            >
+              <input
+                class="input100"
+                type="password"
+                name="pass"
+                id="login_pass"
+                placeholder="Password"
+                value="{{ login_password }}"
+              />
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="fa fa-lock" aria-hidden="true"></i>
+              </span>
+            </div>
+            <div class="container-login100-form-btn">
+              <a
+                class="login100-form-btn"
+                onclick="login()"
+                role="buttom"
+                href="#"
+              >
+                Login
+              </a>
+            </div>
+            <div class="text-center p-t-12">
+              <span class="txt1"> Forgot </span>
+              <a class="txt2" href="#"> Username / Password? </a>
+            </div>
+            <div class="text-center p-t-20">
+              <a
+                class="txt2"
+                href="#"
+                onclick="document.getElementById('login_form').style.display='inline';document.getElementById('signup_form').style.display='none'"
+              >
+                Login
+                <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+              </a>
+              &nbsp &nbsp &nbsp
+              <a
+                class="txt2"
+                href="#"
+                onclick="document.getElementById('login_form').style.display='none';document.getElementById('signup_form').style.display='inline'"
+              >
+                Create your Account
+                <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+              </a>
+            </div>
+          </form>
+
+          <form
+            class="login100-form validate-form"
+            ,
+            id="signup_form"
+            ,
+            style="display: none"
+          >
+            <span class="login100-form-title"> {{title}} </span>
+            <div class="text-center p-t-0">
+              <p style="color: red" id="signup_error">{{signup_error}}</p>
+            </div>
+            <div
+              class="wrap-input100 validate-input"
+              data-validate="Valid email is required: ex@abc.xyz"
+            >
+              <input
+                class="input100"
                 type="text"
                 name="email"
                 id="signup_email"
+                placeholder="Email"
                 action="signup"
                 onblur="validateEmail(this.value, this.getAttribute('action'))"
                 value="{{ signup_email }}"
               />
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+              </span>
             </div>
-            <div data-validate="Password is required">
-              <div
-                style="
-                  display: flex;
-                  align-items: center;
-                  justify-content: space-between;
-                "
-              >
-                <label for="password">Password</label>
-              </div>
+            <!-- Simply consider email as the username
+             <div class="wrap-input100 validate-input" data-validate="Valid username is required">
+              <input class="input100" type="text" name="username" id="signup_username" placeholder="Username" value = {{ signup_username }}>
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="fa fa-user" aria-hidden="true"></i>
+              </span>
+            </div>-->
+            <div
+              class="wrap-input100 validate-input"
+              data-validate="Password is required"
+            >
               <input
+                class="input100"
+                type="password"
+                name="pass"
                 id="signup_pass"
+                placeholder="Password"
                 action="signup"
                 onblur="validatePassword(this.value, this.getAttribute('action'))"
                 value="{{ signup_password }}"
               />
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="fa fa-lock" aria-hidden="true"></i>
+              </span>
             </div>
-            <div data-validate="Password is required">
-              <div
-                style="
-                  display: flex;
-                  align-items: center;
-                  justify-content: space-between;
-                "
-              >
-                <label for="password">Confirm Password</label>
-              </div>
+            <div
+              class="wrap-input100 validate-input"
+              data-validate="Password is required"
+            >
               <input
+                class="input100"
                 type="password"
                 name="pass"
                 id="pass_again"
+                placeholder="Re-enter password"
                 action="signup"
                 onblur="confirmPassword(this.getAttribute('action'))"
               />
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="fa fa-lock" aria-hidden="true"></i>
+              </span>
             </div>
-            <button
-              type="button"
-              onclick="signup()"
-              role="buttom"
-              href="#signup"
-              >Continue</button
-            >
-            <hr />
-            <div class="selector">
-              <button
-                type="button"
-                onclick="document.getElementById('login_form').style.display='block';document.getElementById('signup_form').style.display='none'; document.getElementsByClassName('selector-btn')[0].setAttribute('active', 'true'); document.getElementsByClassName('selector-btn')[1].setAttribute('active', 'false');"
-                class="selector-btn"
-                >Log In</button
+            <div class="container-login100-form-btn">
+              <a
+                class="login100-form-btn"
+                onclick="signup()"
+                role="buttom"
+                href="#signup"
               >
-              <button
-                type="button"
-                style="margin-left: 5px"
-                class="selector-btn"
-                active="false"
-                onclick="document.getElementById('login_form').style.display='none';document.getElementById('signup_form').style.display='block'; document.getElementsByClassName('selector-btn')[3].setAttribute('active', 'true'); document.getElementsByClassName('selector-btn')[2].setAttribute('active', 'false'); document.getElementsByClassName('selector-btn')[0].setAttribute('active', 'false');"
-                >Sign Up</button
+                Sign up
+              </a>
+            </div>
+            <div class="text-center p-t-12">
+              <span class="txt1"> Forgot </span>
+              <a class="txt2" href="#"> Username / Password? </a>
+            </div>
+            <div class="text-center p-t-20">
+              <a
+                class="txt2"
+                href="#"
+                onclick="document.getElementById('login_form').style.display='block';document.getElementById('signup_form').style.display='none'"
               >
+                Login
+                <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+                &nbsp &nbsp &nbsp
+              </a>
+              <a
+                class="txt2"
+                href="#"
+                onclick="document.getElementById('login_form').style.display='none';document.getElementById('signup_form').style.display='block'"
+              >
+                Create your Account
+                <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+              </a>
             </div>
           </form>
         </div>
@@ -420,6 +479,8 @@
         scale: 1.1,
       })
     </script>
+
+    <script async="" src="js"></script>
 
     <script src="{{ url_for('static',filename='main.js') }}"></script>
     <!-- <script defer="defer" src="beacon.js" data-cf-beacon="{&quot;rayId&quot;:&quot;661ee9948aa12d64&quot;,&quot;token&quot;:&quot;cd0b4b3a733644fc843ef0b185f98241&quot;,&quot;version&quot;:&quot;2021.5.2&quot;,&quot;si&quot;:10}"></script> -->

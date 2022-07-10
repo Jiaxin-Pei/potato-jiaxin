@@ -1,0 +1,19 @@
+{
+  "name": "potato-jiaxin",
+  "version": "1.0.0",
+  "description": "##",
+  "main": "index.js",
+  "scripts": {
+    "start": "python3 potato/flask_server.py config/examples/simple-check-box.yaml -p 8000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jiaxin-Pei/potato-jiaxin.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jiaxin-Pei/potato-jiaxin/issues"
+  },
+  "homepage": "https://github.com/Jiaxin-Pei/potato-jiaxin#readme"
+}
