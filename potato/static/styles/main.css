@@ -145,6 +145,14 @@ button {
 button:hover {
   cursor: pointer;
 }
+a[role='button'] {
+  outline: none !important;
+  border: none;
+  background: var(--accent-color);
+}
+a[role='button']:hover {
+  cursor: pointer;
+}
 iframe {
   border: none !important;
 }
@@ -190,7 +198,28 @@ button {
   -moz-transition: all 0.2s;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
 }
+a[role='button'] {
+  width: 100%;
+  position: relative;
+  border-radius: 0.5rem;
+  border: none;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: all 0.2s;
+  -webkit-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
 button:hover {
+  background: var(--accent-color-dark);
+}
+a[role='button']:hover {
   background: var(--accent-color-dark);
 }
 .selector {
@@ -221,6 +250,7 @@ button[active='false']:hover {
   width: 100%;
   margin: 20px;
   padding: 20px;
+  min-height: 100vh;
 }
 form {
   width: 25vw;

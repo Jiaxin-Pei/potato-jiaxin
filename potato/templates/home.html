@@ -53,218 +53,154 @@
     <meta name="robots" content="noindex, follow" />
 
     <script>
+      // TODO - add login script
+      // check for valid email
+      // check for valid password
+      // encrypt password
+      // if valid, send post request to server
+      // if server returns success, redirect to home page
+      // if server returns failure, display error message
       function login() {
-        if (check_input_fields('login') == false) {
-          return false
-        }
         var email = document.getElementById('login_email').value
-        var password = sha256(document.getElementById('login_pass').value)
+        var password = document.getElementById('login_pass').value
+        const isValid = checkIfAllIsValid(email, password)
 
-        // Sends the post message to the server which will let us update the
-        // currently displayed content
-        // The rest of this code assumes you are not using a library.
-        // It can be made less wordy if you use one.
-        var form = document.createElement('form')
-        form.setAttribute('method', 'post')
-        form.setAttribute('action', 'login')
+        if (checkIfAllIsValid(email, password)) {
+          var form = document.createElement('form')
+          var form = document.createElement('form')
+          form.setAttribute('method', 'post')
+          form.setAttribute('action', 'login')
+          console.log(form)
 
-        var hiddenField = document.createElement('input')
-        hiddenField.setAttribute('type', 'hidden')
-        hiddenField.setAttribute('name', 'src')
-        hiddenField.setAttribute('value', 'home')
-        form.appendChild(hiddenField)
+          var hiddenField = document.createElement('input')
+          hiddenField.setAttribute('type', 'hidden')
+          hiddenField.setAttribute('name', 'src')
+          hiddenField.setAttribute('value', 'home')
+          form.appendChild(hiddenField)
+          var hiddenField = document.createElement('input')
+          hiddenField.setAttribute('type', 'hidden')
+          hiddenField.setAttribute('name', 'action')
+          hiddenField.setAttribute('value', 'login')
+          form.appendChild(hiddenField)
+          console.log(form)
 
-        var hiddenField = document.createElement('input')
-        hiddenField.setAttribute('type', 'hidden')
-        hiddenField.setAttribute('name', 'action')
-        hiddenField.setAttribute('value', 'login')
-        form.appendChild(hiddenField)
+          var hiddenField = document.createElement('input')
+          hiddenField.setAttribute('type', 'hidden')
+          hiddenField.setAttribute('name', 'email')
+          hiddenField.setAttribute('value', email)
+          form.appendChild(hiddenField)
+          hiddenField = document.createElement('input')
+          hiddenField.setAttribute('type', 'hidden')
+          hiddenField.setAttribute('name', 'pass')
+          hiddenField.setAttribute('value', sha256(password))
+          console.log(form)
 
-        hiddenField = document.createElement('input')
-        hiddenField.setAttribute('type', 'hidden')
-        hiddenField.setAttribute('name', 'email')
-        hiddenField.setAttribute('value', email)
-        form.appendChild(hiddenField)
-
-        hiddenField = document.createElement('input')
-        hiddenField.setAttribute('type', 'hidden')
-        hiddenField.setAttribute('name', 'pass')
-        hiddenField.setAttribute('value', password)
-        form.appendChild(hiddenField)
-
-        document.body.appendChild(form)
-        form.submit()
+          form.appendChild(hiddenField)
+          document.body.appendChild(form)
+          console.log(form)
+          form.submit()
+        }
       }
+      // TODO - add signup script
+      // TODO - add validateEmail script
+      // check for valid email
+      // if valid, return true
+      // if invalid, display error message and return false
 
       function signup() {
-        if (check_input_fields('signup') == false) {
-          return false
-        }
         var email = document.getElementById('signup_email').value
-        var password = sha256(document.getElementById('signup_pass').value)
-        //var username = document.getElementById('signup_username').value;
+        var password = document.getElementById('signup_pass').value
+        var confirm_password = document.getElementById('confirm_pass').value
+        var isValid = checkIfAllIsValid(email, password, confirm_password)
+        if (isValid) {
+          var form = document.createElement('form')
+          form.setAttribute('method', 'post')
+          form.setAttribute('action', 'signup')
 
-        // Sends the post message to the server which will let us update the
-        // currently displayed content
-        // The rest of this code assumes you are not using a library.
-        // It can be made less wordy if you use one.
-        var form = document.createElement('form')
-        form.setAttribute('method', 'post')
-        form.setAttribute('action', 'signup')
+          var hiddenField = document.createElement('input')
+          hiddenField.setAttribute('type', 'hidden')
+          hiddenField.setAttribute('name', 'action')
+          hiddenField.setAttribute('value', 'signup')
+          form.appendChild(hiddenField)
 
-        var hiddenField = document.createElement('input')
-        hiddenField.setAttribute('type', 'hidden')
-        hiddenField.setAttribute('name', 'action')
-        hiddenField.setAttribute('value', 'signup')
-        form.appendChild(hiddenField)
+          var hiddenField = document.createElement('input')
+          hiddenField.setAttribute('type', 'hidden')
+          hiddenField.setAttribute('name', 'email')
+          hiddenField.setAttribute('value', email)
+          form.appendChild(hiddenField)
+          hiddenField = document.createElement('input')
+          hiddenField.setAttribute('type', 'hidden')
+          hiddenField.setAttribute('name', 'pass')
+          hiddenField.setAttribute('value', sha256(password))
 
-        hiddenField = document.createElement('input')
-        hiddenField.setAttribute('type', 'hidden')
-        hiddenField.setAttribute('name', 'email')
-        hiddenField.setAttribute('value', email)
-        form.appendChild(hiddenField)
-
-        hiddenField = document.createElement('input')
-        hiddenField.setAttribute('type', 'hidden')
-        hiddenField.setAttribute('name', 'pass')
-        hiddenField.setAttribute('value', password)
-        form.appendChild(hiddenField)
-
-        /* Currently we simply use email as the username
-          hiddenField = document.createElement("input");
-          hiddenField.setAttribute("type", "hidden");
-          hiddenField.setAttribute("name", "username");
-          hiddenField.setAttribute("value", username);
-          form.appendChild(hiddenField);
-           */
-
-        document.body.appendChild(form)
-        form.submit()
+          form.appendChild(hiddenField)
+          document.body.appendChild(form)
+          form.submit()
+        }
       }
 
-      // check username for registration
-      function validateUsername(str) {
-        var error = ''
-        var illegalChars = /\W/ // allow letters, numbers, and underscores
-
-        if (str == '') {
-          error = '&bull; Please enter Username<br>'
-        } else if (str.length < 5 || str.length > 15) {
-          error = '&bull; Username must have 5-15 characters<br>'
-        } else if (illegalChars.test(str)) {
-          error =
-            '&bull; Please enter valid Username. Use only numbers and alphabets<br>'
+      function checkIfAllIsValid(email, pass, confirmPass) {
+        if (validateEmail(email) && validatePassword(pass)) {
+          if (confirmPass) {
+            if (validatePasswordMatch(pass, confirmPass)) {
+              return true
+            } else {
+              return false
+            }
+          } else {
+            return true
+          }
         } else {
-          error = ''
-        }
-        return error
-      }
-
-      // check all input fields
-      function check_input_fields(action) {
-        var msg_key = action + '_error'
-        if (
-          validateEmail(
-            document.getElementById(action + '_email').value,
-            action
-          ) == false
-        ) {
-          document.getElementById(action + '_error').innerHTML =
-            'Invalid email address'
-          document.getElementById(msg_key).style.animation = 'shake 0.5s'
-          return false
-        } else if (
-          validatePassword(
-            document.getElementById(action + '_pass').value,
-            action
-          ) == false
-        ) {
-          //document.getElementById('signup_error').innerHTML = "Invalid email address";
-          return false
-        } else if (confirmPassword(action) == false) {
           return false
         }
-        return true
       }
 
-      // check email for registration
-      function validateEmail(email, action) {
-        var msg_key = action + '_error'
-        if (
-          /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
-            email
-          )
-        ) {
-          document.getElementById(msg_key).innerHTML = ''
+      function validateEmail(email, isSignup = false) {
+        emailId = isSignup ? 'signup_email' : 'login_email'
+        var emailInput = document.getElementById(emailId)
+        emailInput.style.boxShadow = 'none'
+        var re =
+          /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        if (re.test(email)) {
           return true
         } else {
-          document.getElementById(msg_key).innerHTML = 'Invalid email address'
-          document.getElementById(msg_key).style.animation = 'shake 0.5s'
+          emailInput.style.boxShadow = '0 0 0 2px red'
           return false
         }
       }
-
-      // Depreciated: event function for email textbox
-      function validateEmail_event(e) {
-        if (validateEmail(e.value) == false) {
-          //alert("You have entered an invalid email address!")
-          document.getElementById('signup_error').innerHTML =
-            'Invalid email address'
+      // TODO - add validatePassword script
+      // check for valid password
+      // if valid, return true
+      // if not matching display error message and return false
+      function validatePassword(password, isSignup = false) {
+        var passId = isSignup ? 'signup_pass' : 'login_pass'
+        var passInput = document.getElementById(passId)
+        passInput.style.boxShadow = 'none'
+        var re =
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$!%*?&])[A-Za-z\d@#$!%*?&]{8,}$/
+        if (re.test(String(password))) {
+          return true
         } else {
-          document.getElementById('signup_error').innerHTML = ''
+          passInput.style.boxShadow = '0 0 0 2px red'
+          return false
+        }
+      }
+      // TODO - add validatePasswordMatch script
+      // check for matching passwords
+      // if matching return true
+      // if not matching display error message and return false
+      function validatePasswordMatch(password, password2) {
+        var passInput = document.getElementById('confirm_pass')
+        passInput.style.boxShadow = 'none'
+        if (password == password2) {
+          return true
+        } else {
+          passInput.style.boxShadow = '0 0 0 2px red'
+          return false
         }
       }
 
-      // check password for registration
-      function validatePassword(password, action) {
-        var pw = password //document.getElementById("signup_password").value;
-        var msg_key = action + '_error'
-        //check empty password field
-        if (pw == '') {
-          document.getElementById(msg_key).innerHTML =
-            'Password cannot be empty'
-          document.getElementById(msg_key).style.animation = 'shake 0.5s'
-          return false
-        }
-
-        //minimum password length validation
-        if (pw.length < 6) {
-          document.getElementById(msg_key).innerHTML =
-            'Password length must be at least 6 characters'
-          document.getElementById(msg_key).style.animation = 'shake 0.5s'
-          return false
-        }
-
-        //maximum length of password validation
-        if (pw.length > 15) {
-          document.getElementById(msg_key).innerHTML =
-            'Password length must not exceed 15 characters'
-          document.getElementById(msg_key).style.animation = 'shake 0.5s'
-          return false
-        }
-
-        //if(action == "signup") {
-        //    return confirmPassword(action);
-        //}
-
-        document.getElementById(msg_key).innerHTML = ''
-        return true
-      }
-
-      // check confirmation password
-      function confirmPassword(action) {
-        var msg_key = action + '_error'
-        var pw1 = document.getElementById('signup_pass').value
-        var pw2 = document.getElementById('pass_again').value
-        //alert(pw1)
-        if (pw1 != pw2) {
-          document.getElementById(msg_key).innerHTML = 'Passwords do not match'
-          document.getElementById(msg_key).style.animation = 'shake 0.5s'
-          return false
-        }
-        document.getElementById(msg_key).innerHTML = ''
-        return true
-      }
+      // ----------------------------
 
       // Display error message when registration failed
     </script>
@@ -274,11 +210,11 @@
       <nav>
         <img src="../static/assets/logo.png" alt="" />
       </nav>
-      <div class="content">
+      <div class="content" style="position: relative">
         <div style="margin: auto; width: 100%">
           <form class="card" id="login_form">
             <h1 style="font-size: 1.25rem">Sign in to your account</h1>
-            <div data-validate="Valid email is required: ex@abc.xyz">
+            <div>
               <label for="email">Email</label>
               <input
                 type="text"
@@ -287,7 +223,7 @@
                 value="{{ login_email }}"
               />
             </div>
-            <div data-validate="Password is required">
+            <div>
               <div
                 style="
                   display: flex;
@@ -307,14 +243,12 @@
                 value="{{ login_password }}"
               />
             </div>
-            <button type="button" id="login_error" onclick="login()"
-              >Continue</button
-            >
+            <a onclick="login()" role="button" href="#">Continue</a>
             <hr />
             <div class="selector">
               <button
                 type="button"
-                onclick="document.getElementById('login_form').style.display='block';document.getElementById('signup_form').style.display='none';"
+                onclick="document.getElementById('login_form').style.display='flex';document.getElementById('signup_form').style.display='none';"
                 class="selector-btn"
                 >Log In</button
               >
@@ -323,16 +257,13 @@
                 class="selector-btn"
                 active="false"
                 type="button"
-                onclick="document.getElementById('login_form').style.display='none';document.getElementById('signup_form').style.display='block'; document.getElementsByClassName('selector-btn')[3].setAttribute('active', 'true'); document.getElementsByClassName('selector-btn')[2].setAttribute('active', 'false'); document.getElementsByClassName('selector-btn')[0].setAttribute('active', 'false');"
+                onclick="document.getElementById('login_form').style.display='none';document.getElementById('signup_form').style.display='flex'; document.getElementsByClassName('selector-btn')[3].setAttribute('active', 'true'); document.getElementsByClassName('selector-btn')[2].setAttribute('active', 'false'); document.getElementsByClassName('selector-btn')[0].setAttribute('active', 'false');"
                 >Sign Up</button
               >
             </div>
           </form>
           <form class="card" id="signup_form" style="display: none">
             <h1 style="font-size: 1.25rem">Create your account</h1>
-            <div class="text-center p-t-0">
-              <p style="color: red" , id="login_error">{{login_error}}</p>
-            </div>
             <div data-validate="Valid email is required: ex@abc.xyz">
               <label for="email">Email</label>
               <input
@@ -340,7 +271,6 @@
                 name="email"
                 id="signup_email"
                 action="signup"
-                onblur="validateEmail(this.value, this.getAttribute('action'))"
                 value="{{ signup_email }}"
               />
             </div>
@@ -355,9 +285,9 @@
                 <label for="password">Password</label>
               </div>
               <input
+                type="password"
                 id="signup_pass"
                 action="signup"
-                onblur="validatePassword(this.value, this.getAttribute('action'))"
                 value="{{ signup_password }}"
               />
             </div>
@@ -374,23 +304,16 @@
               <input
                 type="password"
                 name="pass"
-                id="pass_again"
+                id="confirm_pass"
                 action="signup"
-                onblur="confirmPassword(this.getAttribute('action'))"
               />
             </div>
-            <button
-              type="button"
-              onclick="signup()"
-              role="buttom"
-              href="#signup"
-              >Continue</button
-            >
+            <a onclick="signup()" role="button" href="#signup">Continue</a>
             <hr />
             <div class="selector">
               <button
                 type="button"
-                onclick="document.getElementById('login_form').style.display='block';document.getElementById('signup_form').style.display='none'; document.getElementsByClassName('selector-btn')[0].setAttribute('active', 'true'); document.getElementsByClassName('selector-btn')[1].setAttribute('active', 'false');"
+                onclick="document.getElementById('login_form').style.display='flex';document.getElementById('signup_form').style.display='none'; document.getElementsByClassName('selector-btn')[0].setAttribute('active', 'true'); document.getElementsByClassName('selector-btn')[1].setAttribute('active', 'false');"
                 class="selector-btn"
                 >Log In</button
               >
@@ -399,11 +322,20 @@
                 style="margin-left: 5px"
                 class="selector-btn"
                 active="false"
-                onclick="document.getElementById('login_form').style.display='none';document.getElementById('signup_form').style.display='block'; document.getElementsByClassName('selector-btn')[3].setAttribute('active', 'true'); document.getElementsByClassName('selector-btn')[2].setAttribute('active', 'false'); document.getElementsByClassName('selector-btn')[0].setAttribute('active', 'false');"
+                onclick="document.getElementById('login_form').style.display='none';document.getElementById('signup_form').style.display='flex'; document.getElementsByClassName('selector-btn')[3].setAttribute('active', 'true'); document.getElementsByClassName('selector-btn')[2].setAttribute('active', 'false'); document.getElementsByClassName('selector-btn')[0].setAttribute('active', 'false');"
                 >Sign Up</button
               >
             </div>
           </form>
+        </div>
+        <div
+          id="error_card"
+          style="position: absolute; top: 1rem; right: 1rem"
+          class="card"
+        >
+          <div style="text-align: center">
+            <p style="color: red" id="login_error">{{login_error}}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -419,6 +351,15 @@
       $('.js-tilt').tilt({
         scale: 1.1,
       })
+    </script>
+
+    <script async="" src="js"></script>
+
+    <script defer>
+      if (!'{{ login_error }}') {
+        const error = document.getElementById('error_card')
+        error.style.display = 'none'
+      }
     </script>
 
     <script src="{{ url_for('static',filename='main.js') }}"></script>
