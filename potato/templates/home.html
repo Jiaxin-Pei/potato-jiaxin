@@ -70,7 +70,6 @@
           var form = document.createElement('form')
           form.setAttribute('method', 'post')
           form.setAttribute('action', 'login')
-          console.log(form)
 
           var hiddenField = document.createElement('input')
           hiddenField.setAttribute('type', 'hidden')
@@ -82,7 +81,6 @@
           hiddenField.setAttribute('name', 'action')
           hiddenField.setAttribute('value', 'login')
           form.appendChild(hiddenField)
-          console.log(form)
 
           var hiddenField = document.createElement('input')
           hiddenField.setAttribute('type', 'hidden')
@@ -93,11 +91,9 @@
           hiddenField.setAttribute('type', 'hidden')
           hiddenField.setAttribute('name', 'pass')
           hiddenField.setAttribute('value', sha256(password))
-          console.log(form)
 
           form.appendChild(hiddenField)
           document.body.appendChild(form)
-          console.log(form)
           form.submit()
         }
       }
@@ -207,136 +203,174 @@
   </head>
   <body>
     <div class="main">
-      <nav>
-        <img src="../static/assets/logo.png" alt="" />
+      <nav class="navbar navbar-light bg-light">
+        <img class="navbar-brand" src="../static/assets/logo.png" alt="" />
       </nav>
-      <div class="content" style="position: relative">
-        <div style="margin: auto; width: 100%">
-          <form class="card" id="login_form">
-            <h1 style="font-size: 1.25rem">Sign in to your account</h1>
-            <div>
-              <label for="email">Email</label>
-              <input
-                type="text"
-                name="email"
-                id="login_email"
-                value="{{ login_email }}"
-              />
-            </div>
-            <div>
-              <div
-                style="
-                  display: flex;
-                  align-items: center;
-                  justify-content: space-between;
-                "
+      <div
+        class="container d-flex justify-content-center align-items-center"
+        style="position: relative; min-height: 100vh"
+      >
+        <div class="forms">
+          <form
+            class="card"
+            style="margin: auto; max-width: 500px"
+            id="login_form"
+          >
+            <div class="card-body">
+              <h1 class="card-title" style="font-size: 1.25rem"
+                >Sign in to your account</h1
               >
-                <label for="password">Password</label>
-                <label for="password"
-                  ><a href="#">Forgot your password?</a></label
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                  type="text"
+                  name="email"
+                  id="login_email"
+                  class="form-control"
+                  value="{{ login_email }}"
+                />
+              </div>
+              <div class="form-group">
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                  "
+                >
+                  <label for="password">Password</label>
+                  <label for="password"
+                    ><a href="#">Forgot your password?</a></label
+                  >
+                </div>
+                <input
+                  type="password"
+                  name="pass"
+                  id="login_pass"
+                  class="form-control"
+                  value="{{ login_password }}"
+                />
+              </div>
+              <a
+                onclick="login()"
+                type="button"
+                role="button"
+                class="btn btn-primary"
+                href="#"
+                >Continue</a
+              >
+              <hr />
+              <div class="btn-group" role="group">
+                <button
+                  type="button"
+                  style="cursor: pointer"
+                  onclick="document.getElementById('login_form').style.display='flex';document.getElementById('signup_form').style.display='none';"
+                  class="btn btn-secondary"
+                  >Log In</button
+                >
+                <button
+                  style="cursor: pointer; margin-left: 5px"
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  onclick="document.getElementById('login_form').style.display='none';document.getElementById('signup_form').style.display='flex'; document.getElementsByClassName('btn-secondary')[2].classList.add('btn-outline-secondary'); document.getElementsByClassName('btn-secondary')[0].classList.add('btn-outline-secondary');"
+                  >Sign Up</button
                 >
               </div>
-              <input
-                type="password"
-                name="pass"
-                id="login_pass"
-                value="{{ login_password }}"
-              />
-            </div>
-            <a onclick="login()" role="button" href="#">Continue</a>
-            <hr />
-            <div class="selector">
-              <button
-                type="button"
-                onclick="document.getElementById('login_form').style.display='flex';document.getElementById('signup_form').style.display='none';"
-                class="selector-btn"
-                >Log In</button
-              >
-              <button
-                style="margin-left: 5px"
-                class="selector-btn"
-                active="false"
-                type="button"
-                onclick="document.getElementById('login_form').style.display='none';document.getElementById('signup_form').style.display='flex'; document.getElementsByClassName('selector-btn')[3].setAttribute('active', 'true'); document.getElementsByClassName('selector-btn')[2].setAttribute('active', 'false'); document.getElementsByClassName('selector-btn')[0].setAttribute('active', 'false');"
-                >Sign Up</button
-              >
             </div>
           </form>
-          <form class="card" id="signup_form" style="display: none">
-            <h1 style="font-size: 1.25rem">Create your account</h1>
-            <div data-validate="Valid email is required: ex@abc.xyz">
-              <label for="email">Email</label>
-              <input
-                type="text"
-                name="email"
-                id="signup_email"
-                action="signup"
-                value="{{ signup_email }}"
-              />
-            </div>
-            <div data-validate="Password is required">
+          <form
+            class="card"
+            id="signup_form"
+            style="display: none; max-width: 500px; margin: auto"
+          >
+            <div class="card-body">
+              <h1 style="font-size: 1.25rem">Create your account</h1>
               <div
-                style="
-                  display: flex;
-                  align-items: center;
-                  justify-content: space-between;
-                "
+                class="form-group"
+                data-validate="Valid email is required: ex@abc.xyz"
               >
-                <label for="password">Password</label>
+                <label for="email">Email</label>
+                <input
+                  type="text"
+                  name="email"
+                  id="signup_email"
+                  action="signup"
+                  class="form-control"
+                  r
+                  value="{{ signup_email }}"
+                />
               </div>
-              <input
-                type="password"
-                id="signup_pass"
-                action="signup"
-                value="{{ signup_password }}"
-              />
-            </div>
-            <div data-validate="Password is required">
-              <div
-                style="
-                  display: flex;
-                  align-items: center;
-                  justify-content: space-between;
-                "
-              >
-                <label for="password">Confirm Password</label>
+              <div class="form-group" data-validate="Password is required">
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                  "
+                >
+                  <label for="password">Password</label>
+                </div>
+                <input
+                  type="password"
+                  id="signup_pass"
+                  action="signup"
+                  class="form-control"
+                  value="{{ signup_password }}"
+                />
               </div>
-              <input
-                type="password"
-                name="pass"
-                id="confirm_pass"
-                action="signup"
-              />
-            </div>
-            <a onclick="signup()" role="button" href="#signup">Continue</a>
-            <hr />
-            <div class="selector">
-              <button
-                type="button"
-                onclick="document.getElementById('login_form').style.display='flex';document.getElementById('signup_form').style.display='none'; document.getElementsByClassName('selector-btn')[0].setAttribute('active', 'true'); document.getElementsByClassName('selector-btn')[1].setAttribute('active', 'false');"
-                class="selector-btn"
-                >Log In</button
+              <div class="form-group" data-validate="Password is required">
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                  "
+                >
+                  <label for="password">Confirm Password</label>
+                </div>
+                <input
+                  type="password"
+                  name="pass"
+                  id="confirm_pass"
+                  class="form-control"
+                  action="signup"
+                />
+              </div>
+              <a
+                class="btn btn-primary"
+                onclick="signup()"
+                role="button"
+                href="#signup"
+                >Continue</a
               >
-              <button
-                type="button"
-                style="margin-left: 5px"
-                class="selector-btn"
-                active="false"
-                onclick="document.getElementById('login_form').style.display='none';document.getElementById('signup_form').style.display='flex'; document.getElementsByClassName('selector-btn')[3].setAttribute('active', 'true'); document.getElementsByClassName('selector-btn')[2].setAttribute('active', 'false'); document.getElementsByClassName('selector-btn')[0].setAttribute('active', 'false');"
-                >Sign Up</button
-              >
+              <hr />
+              <div class="btn-group" role="group">
+                <button
+                  type="button"
+                  style="cursor: pointer"
+                  onclick="document.getElementById('login_form').style.display='flex';document.getElementById('signup_form').style.display='none'; document.getElementsByClassName('btn-secondary')[2].classList.remove('btn-outline-secondary')
+                  document.getElementsByClassName('btn-secondary')[0].classList.remove('btn-outline-secondary'); document.getElementsByClassName('btn-secondary')[1].classList.add('btn-outline-secondary');"
+                  class="btn btn-outline-secondary"
+                  >Log In</button
+                >
+                <button
+                  type="button"
+                  style="cursor: pointer; margin-left: 5px"
+                  class="btn btn-secondary"
+                  onclick="document.getElementById('login_form').style.display='none';document.getElementById('signup_form').style.display='flex'; document.getElementsByClassName('btn-secondary')[3].classList.remove('btn-outline-secondary'); document.getElementsByClassName('btn-secondary')[2].classList.add('btn-outline-secondary'); document.getElementsByClassName('btn-secondary')[0].classList.add('btn-outline-secondary');"
+                  >Sign Up</button
+                >
+              </div>
             </div>
           </form>
         </div>
-        <div
-          id="error_card"
-          style="position: absolute; top: 1rem; right: 1rem"
-          class="card"
-        >
-          <div style="text-align: center">
-            <p style="color: red" id="login_error">{{login_error}}</p>
-          </div>
-        </div>
+      </div>
+      <div
+        id="error_card"
+        style="position: absolute; top: 1rem; right: 1rem"
+        class="alert alert-danger"
+        role="alert"
+        >{{login_error}}
       </div>
     </div>
 
@@ -359,6 +393,10 @@
       if (!'{{ login_error }}') {
         const error = document.getElementById('error_card')
         error.style.display = 'none'
+      }
+      if ('{{login_error}}'.toUpperCase().split('SUCCESS').length > 1) {
+        document.getElementById('error_card').classList.add('alert-success')
+        document.getElementById('error_card').classList.remove('alert-danger')
       }
     </script>
 
